@@ -12,7 +12,7 @@ describe('POST /armario/:objeto', () => {
         try {
             await axios.post('http://localhost:5000/armario/');
         } catch (error) {
-            expect(error.response.status).toBe(404);
+            expect(error.response.status).toBe(405);
         }
     });
 });
