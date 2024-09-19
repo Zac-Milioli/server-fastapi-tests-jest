@@ -1,8 +1,11 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from models.obj import Armario
 import uvicorn
 
 app = FastAPI()
+
+app.add_middleware(CORSMiddleware, allow_origins=['*'])
 
 armario_instance = Armario(name="Meu armário")
 
