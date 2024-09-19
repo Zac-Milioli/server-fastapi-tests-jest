@@ -1,10 +1,4 @@
-from pydantic import BaseModel
 from enum import Enum
-
-class Objeto(BaseModel):
-    """Um objeto qualquer para colocar no armário"""
-    name: str
-
 
 class Responses(Enum):
     """Possíveis respostas para as funções"""
@@ -18,30 +12,26 @@ class Armario:
 
     def __init__(self, name: str = 'Armário sem nome') -> None:
         self.name = name
-        self._conteudo = []
+        self.conteudo = []
 
-    @classmethod
     def get_conteudos(self) -> dict:
-        return {self._conteudo}
+        return {"nome": self.name, "conteudos": self.conteudo}
 
-    @classmethod
-    def add_conteudo(self, objeto: Objeto) -> None:
+    def add_conteudo(self, objeto: str) -> None:
         try:
-            self._conteudo.append(objeto)
+            self.conteudo.append(objeto)
             return Responses.OK
-        except:
-            return Responses.ERRO
+        except Exception as e:
+            return {"status": Responses.ERRO, "message": str(e)}
     
-    @classmethod
-    def delete_conteudo(self, objeto: Objeto):
-        if objeto not in self.get_conteudo:
+    def delete_conteudo(self, objeto: str):
+        if objeto not in self.get_conteudos().get('conteudos'):
             return Responses.NOT_FOUND
         try:
-            self._conteudo.pop(objeto)
+            self.conteudo.remove(objeto)
             return Responses.OK
-        except:
-            return Responses.ERRO
+        except Exception as e:
+            return {"status": Responses.ERRO, "message": str(e)}
     
-    @classmethod
     def __str__(self) -> str:
         return f'{self.name}: {"".join(self._conteudo)}'

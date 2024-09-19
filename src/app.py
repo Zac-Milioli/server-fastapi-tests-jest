@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from models.obj import Armario, Objeto
+from models.obj import Armario
 import uvicorn
 
 app = FastAPI()
@@ -8,7 +8,7 @@ armario_instance = Armario(name="Meu armário")
 
 @app.get("/armario")
 def get_armario():
-    return armario_instance.get_conteudos
+    return armario_instance.get_conteudos()
 
 @app.post("/armario/{objeto}")
 def post_objeto(objeto: str):
